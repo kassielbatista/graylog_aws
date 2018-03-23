@@ -1,4 +1,4 @@
 resource "aws_key_pair" "poc_graylog_key" {
-  key_name = "poc_graylog_key"
+  key_name   = "poc_graylog_key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGNGSofadKVfS15krkKwgS0ggi29trxrekRnIlFINTnIzWOX/V1u4u3lTFwPzXhEPm0IkdXUZNa2lIcB5xC/8Ei9cDBQNSdRV4RFBgREdj1fr7k2Co7pIHQSFs+kbGT9OTCbmzUpmjModLrDy4CEMO/PC52hWFgXrdH+TkOD7jMmr+TIeYpcEpH6iZ1e6D7xvbfZEGWUIK7EQV+/H2iXAT7V7WcUdXKC1Rf2v5GPzaCWp2W4h2uqvpJv2Ci+xENdScCqHwf6eUbkqMJgaBTeAVv6kHYWFr1mwMQLHlf+UKM7cH9Q/OeWd5kHpbB/qnoocp8yNN0x4UlW4TSNo+YEfB kbatista@squaretrade.com"
 }
