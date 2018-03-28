@@ -54,6 +54,8 @@ print_line(){
 ###################################################################################
 ################################ Main program #####################################
 ###################################################################################
+
+# Checks if .env file exists
 if [ ! -f .env ]; then
     printf "You must create an '.env file with the following environment variables:\n [AWS_KEY]: Key to your AWS account\n [AWS_SECRET]: Secret to your AWS account\n [AWS_REGION]: The region where you want to provision";
     exit 1;
@@ -64,6 +66,7 @@ else
     done < .env
 fi
 
+# Checks if there are any given parameter or help was invoked
 if [ "$#" -ne 1 ] || [ $1 == "-h" ]; then
     printf "Usage ./run [option]\n  Options:\n  --generate-work-dir     Generates the terraform working dir, if you want execute terraform commands mannually.\n  --clean-work-dir      Clean an existing working dir.\n  --provision        Automatically provision infrastructure";
     exit 0;
@@ -71,6 +74,7 @@ fi
 
 OPTION=$1;
 
+# Checks given parameter and execute its functions
 if [ ${OPTION} == "--generate-work-dir"  ]; then
     generate_working_dir;
 elif [ ${OPTION} == "--clean-work-dir" ]; then
@@ -89,13 +93,23 @@ elif [ ${OPTION} == "--provision" ]; then
     # Performs Terraform initialization
     terraform init;
 
-    # Performs Terraform provision plan
-    terraform plan;
-
     # Performs Terraform plan apply
-    terraform apply;
+    terraform apply -auto-approve;
 
     clean_working_dir
+
+elif [ ${OPTION} == "--destroy" ]; then
+    generate_working_dir
+    cd ${workingDir}
+
+    # Performs Terraform initialization
+    terraform init;
+
+    # Performs Terraform destroy
+    terraform destroy -auto-approve
+
+    clean_working_dir
+
 fi
 
 
