@@ -16,9 +16,20 @@ resource "aws_instance" "poc_graylog" {
     destination = "/tmp/"
   }
 
+  provisioner "file" {
+    source = "../graylog_config/"
+    destination = "/tmp/"
+  }
+
   provisioner "remote-exec" {
     inline = [
-      "sudo /tmp/install_docker.sh"
+      "chmod +x /tmp/install_docker.sh && sudo /tmp/install_docker.sh ubuntu"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "docker-compose -f /tmp/graylog-compose.yml up -d"
     ]
   }
 

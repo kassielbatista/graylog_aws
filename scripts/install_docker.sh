@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Install docker-compose's latest version
+# Install docker-graylog_config's latest version
 install_docker_compose() {
     COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4);
 
@@ -48,9 +48,9 @@ install_docker() {
         sleep 1.0
 
         # Call non root docker management function
-        non_root_docker_management;
+        non_root_docker_management $1;
 
-        # Call docker-compose installation function
+        # Call docker-graylog_config installation function
         install_docker_compose;
     fi
 }
@@ -69,12 +69,12 @@ non_root_docker_management() {
 
     printf "Checking if user is a member of Docker group...\n";
 
-    id -Gn $USER | grep -q docker;
+    id -Gn ${USER} | grep -q docker;
 
     if [[ $? != 0 ]]; then
         printf "User is not a member of Docker group, adding him now...\n"
 
-        usermod -aG docker $USER;
+        usermod -aG docker ${USER};
     else
         printf "User is already a member of Docker group.\n"
     fi
@@ -89,15 +89,7 @@ check_docker_installation() {
 
     which docker;
 
-    if [[ $? != 0 ]]; then
-        # Call Docker installation method.
-        printf "Docker is not installed yet!\n";
-        sleep 3.0;
-        install_docker;
-    else
-        printf "Docker is already installed, perfoming upgrade of Docker version...\n";
-        apt-get upgrade -y docker;
-    fi
+    return $?
 }
 
 ROOT=$(whoami);
@@ -112,4 +104,12 @@ elif [ $ROOT != "root" ]; then
     exit 1;
 fi
 
-check_docker_installation;
+if [[ check_docker_installation != 0 ]]; then
+    # Call Docker installation method.
+    printf "Docker is not installed yet!\n";
+    sleep 3.0;
+    install_docker $1;
+else
+    printf "Docker is already installed, perfoming upgrade of Docker version...\n";
+    apt-get upgrade -y docker;
+fi

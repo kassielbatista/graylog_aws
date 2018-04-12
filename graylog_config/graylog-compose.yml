@@ -1,0 +1,58 @@
+version: '2'
+services:
+  # MongoDB container
+  mongodb:
+    container_name: graylog_mongodb
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+
+  # ElasticSearch container
+  elasticsearch:
+    container_name: graylog_elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - network.host=0.0.0.0
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+
+  # Graylog server container
+  graylog:
+    container_name: graylog_server
+    image: graylog/graylog:2.4.3-1
+    volumes:
+      - graylog_journal:/usr/share/graylog/data/journal
+      - ./default_input_configuration:/usr/share/graylog/data/contentpacks
+    env_file:
+      - .env
+    links:
+      - mongodb:mongo
+      - elasticsearch
+    depends_on:
+      - mongodb
+      - elasticsearch
+    ports:
+      - 80:9000
+      - 514:514
+      - 514:514/udp
+      - 12201:12201
+      - 12201:12201/udp
+      - 5555:5555
+      - 5555:5555/udp
+
+volumes:
+  mongo_data:
+    driver: local
+  elastic_data:
+    driver: local
+  graylog_journal:
+    driver: local

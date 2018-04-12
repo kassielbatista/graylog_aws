@@ -5,3 +5,5 @@ variable "AWS_AVAILABILITY_ZONE" {}
 variable "SSH_PRIVATE_KEY" {}
 variable "SSH_PUBLIC_KEY" {}
 variable "VPC_ID" {}
+variable "HOSTED_ZONE_ID" {}
+variable "RECORD_SET_NAME" {}

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 tfSourceDir=(
+    $PWD'/config/'
     $PWD'/provider/'
     $PWD'/data-sources/'
     $PWD'/resources/'

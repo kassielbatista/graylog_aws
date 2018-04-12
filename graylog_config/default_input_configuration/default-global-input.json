@@ -1,0 +1,90 @@
+{
+  "name": "GELF input on 12201",
+  "description": "Adds GELF input for both TCP/UDP on port 12201",
+  "category": "Inputs",
+  "inputs": [
+    {
+      "title": "GELF TCP",
+      "configuration": {
+        "bind_address": "0.0.0.0",
+        "decompress_size_limit": 8388608,
+        "max_message_size": 2097152,
+        "override_source": "",
+        "port": 12201,
+        "recv_buffer_size": 1048576,
+        "tcp_keepalive": false,
+        "tls_cert_file": "",
+        "tls_client_auth": "disabled",
+        "tls_client_auth_cert_file": "",
+        "tls_enable": false,
+        "tls_key_file": "",
+        "tls_key_password": "",
+        "use_null_delimiter": true
+      },
+      "static_fields": {},
+      "type": "org.graylog2.inputs.gelf.tcp.GELFTCPInput",
+      "global": true,
+      "extractors": []
+    },
+    {
+      "title":"GELF UDP",
+      "configuration": {
+        "bind_address": "0.0.0.0",
+        "decompress_size_limit": 8388608,
+        "override_source": "",
+        "port": 12201,
+        "recv_buffer_size": 262144
+      },
+      "static_fields": {},
+      "type": "org.graylog2.inputs.gelf.udp.GELFUDPInput",
+      "global": true,
+      "extractors": []
+    },
+    {
+      "title": "Syslog TCP",
+      "configuration": {
+        "allow_override_date": true,
+        "bind_address": "0.0.0.0",
+        "expand_structured_data": false,
+        "force_rdns": false,
+        "max_message_size": 2097152,
+        "override_source": "",
+        "port": 514,
+        "recv_buffer_size": 1048576,
+        "store_full_message": false,
+        "tcp_keepalive": false,
+        "tls_cert_file": "",
+        "tls_client_auth": "disabled",
+        "tls_client_auth_cert_file": "",
+        "tls_enable": false,
+        "tls_key_password": "",
+        "use_null_delimiter": false
+      },
+      "static_fields": {},
+      "type": "org.graylog2.inputs.syslog.tcp.SyslogTCPInput",
+      "global": true,
+      "extractors": []
+    },
+    {
+      "title": "Syslog UDP",
+      "configuration": {
+        "allow_override_date": true,
+        "bind_address": "0.0.0.0",
+        "expand_structured_data": false,
+        "force_rdns": false,
+        "override_source": "",
+        "port": 514,
+        "recv_buffer_size": 262144,
+        "store_full_message": false
+      },
+      "static_fields": {},
+      "type": "org.graylog2.inputs.syslog.udp.SyslogUDPInput",
+      "global": true,
+      "extractors": []
+    }
+  ],
+  "streams": [],
+  "outputs": [],
+  "dashboards": [],
+  "grok_patterns": []
+}

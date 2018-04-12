@@ -65,4 +65,8 @@ resource "aws_security_group" "allow" {
     to_port = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags {
+    Name = "graylog-poc"
+  }
 }
